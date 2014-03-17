@@ -6,9 +6,9 @@ that joins DNA sequences, optionally inserting a custom delimiter sequence betwe
 
 For example, given a list of sequences,
 
-  AAAAAAA
-  BBBBBBB
-  CCCCCCC
+  - AAAAAAA
+  - BBBBBBB
+  - CCCCCCC
 
 and entering a delimiter
 
