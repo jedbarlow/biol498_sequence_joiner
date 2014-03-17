@@ -7,7 +7,7 @@ that joins DNA sequences, optionally inserting a custom delimiter sequence betwe
 For example, given a list of sequences,
 
   - AAAAAAA
-  - BBBBBBB
+  - GGGGGGG
   - CCCCCCC
 
 and entering a delimiter
@@ -16,4 +16,4 @@ and entering a delimiter
 
 the plugin produces the following output.
 
-  AAAAAAANNNNBBBBBBBNNNNCCCCCCCNNNN
+  AAAAAAANNNNGGGGGGGNNNNCCCCCCCNNNN
