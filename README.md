@@ -1,5 +1,5 @@
-DNA Sequence Joiner
-===================
+Delimited Sequence Joiner
+=========================
 
 This project is a plugin for [CLC Genomics
 Workbench](http://www.clcbio.com/products/clc-genomics-workbench/) that joins
