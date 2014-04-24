@@ -27,6 +27,7 @@ import com.clcbio.api.base.algorithm.parameter.AlgoInputSelection;
 import com.clcbio.api.base.algorithm.parameter.AlgoParameters;
 import com.clcbio.api.base.algorithm.parameter.AlgoParametersInterpreter;
 import com.clcbio.api.base.algorithm.parameter.ParameterGroup;
+import com.clcbio.api.base.algorithm.parameter.keys.BooleanKey;
 import com.clcbio.api.base.algorithm.parameter.keys.CachingKeyChecker;
 import com.clcbio.api.base.algorithm.parameter.keys.Key;
 import com.clcbio.api.base.algorithm.parameter.keys.KeyChecker;
@@ -45,11 +46,17 @@ public class JoinerParameters extends AlgoParametersInterpreter {
 			.labelled("Delimiter")
 			.defaultsTo("NNNNNNNNNN")
 			.done();
+	public final BooleanKey appendDelimToEnd = Keys.newBooleanKey(this, "appendToEnd")
+	        .inGroup(mainGroup)
+	        .describedAs("Append a delimiter after the last sequence")
+	        .labelled("Delimiter after last sequence")
+	        .defaultsTo(false)
+	        .done();
 	private final KeyContainer keys;
 
 	public JoinerParameters(AlgoParameters aps) {
 		super(aps);
-		this.keys = new KeyContainer(delimiter);
+		this.keys = new KeyContainer(delimiter, appendDelimToEnd);
 	}
 
 	@Override

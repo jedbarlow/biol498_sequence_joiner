@@ -60,10 +60,14 @@ public class JoinerAlgo extends Algo {
 			MovableSequenceIterator msi = sl.getSequenceIterator();
 			while(msi.hasNext()) {
 				Sequence s = msi.next();
+				if (builder.getSequenceLength() != 0)
+				    builder.addSequenceData(delimiter);
 				builder.addSequenceData(s.getString());
-				builder.addSequenceData(delimiter);
 			}
 		}
+
+		if (jp.appendDelimToEnd.get())
+		    builder.addSequenceData(delimiter);
 		
 		builder.setName(firstname + " delimited join");
 		builder.setDescription("Join of " + firstname + " with delimiter '" + delimiter + "'.");
