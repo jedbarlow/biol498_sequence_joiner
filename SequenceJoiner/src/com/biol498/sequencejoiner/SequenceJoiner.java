@@ -21,11 +21,13 @@ package com.biol498.sequencejoiner;
 
 import com.clcbio.api.base.algorithm.Algo;
 import com.clcbio.api.base.algorithm.parameter.AlgoParameters;
+import com.clcbio.api.base.tools.SequenceTools;
 import com.clcbio.api.clc.gui.wizard.WizardFacade;
 import com.clcbio.api.free.actions.framework.StaticActionGroupDefinitions;
 import com.clcbio.api.free.algorithm.AlgoAction;
 import com.clcbio.api.free.algorithm.wizard.AlgoSaveWizardStepModel;
 import com.clcbio.api.free.datatypes.ClcObject;
+import com.clcbio.api.free.datatypes.bioinformatics.sequence.SequenceType;
 import com.clcbio.api.free.datatypes.bioinformatics.sequence.list.SequenceList;
 import com.clcbio.api.free.gui.components.MultiSelectClassRestrictor;
 import com.clcbio.api.free.gui.components.MultiSelectRestrictor;
@@ -89,13 +91,21 @@ public class SequenceJoiner extends AlgoAction {
 	public MultiSelectRestrictor createRestrictor(final WarningReceptor wr) {
 		return new MultiSelectClassRestrictor(new Class<?>[] { SequenceList.class }, "Select a sequence list"){
 			@Override
-			public boolean canAddObject(ClcObject[] currentSelectedObjects, ClcObject candidateObject) {
+			public boolean canAddObject(ClcObject[] currentSelection, ClcObject candidate) {
+			    if (!super.canAddObject(currentSelection, candidate))
+			        return false;
+
+			    if (!SequenceTools.isNucleotide(candidate)) {
+			        wr.showAddingWarning("Can only join nucleotide sequences");
+			        return false;
+			    }
+
 				return true;
 			}
 			
 			@Override
 			public boolean verifySelection(ClcObject[] objs) {
-				return true;//1 <= SequenceTools.getSequenceCount(SequenceType.ALL, (Object[]) objs);
+				return 1 <= SequenceTools.getSequenceCount(SequenceType.ALL, (Object[]) objs);
 			}
 		};
 	}
