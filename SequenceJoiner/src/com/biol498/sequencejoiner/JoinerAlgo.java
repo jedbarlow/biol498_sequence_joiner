@@ -39,63 +39,63 @@ import com.clcbio.api.free.datatypes.framework.history.HistoryEntry;
 
 public class JoinerAlgo extends Algo {
 
-	public JoinerAlgo(ApplicationContext ac) {
-		super(ac);
-	}
-	
-	@Override
-	public void calculate(OutputHandler handler, CallableExecutor objectModificationExecutor) throws AlgoException, InterruptedException {
-		JoinerParameters jp = new JoinerParameters(getParameters());
-		String delimiter = jp.delimiter.get();
+    public JoinerAlgo(ApplicationContext ac) {
+        super(ac);
+    }
 
-		SequenceBuilder builder = FactoryManager.getInstance().getSequenceFactory()
-				.createBuilder();
-		String firstname = "";
-		builder.setAlphabet(AlphabetTools.getAlphabet(AlphabetTools.DNATYPE));
-		
-		for (ClcObject o : getInputObjectsIteratorProvider()) {
-			SequenceList sl = (SequenceList) o;
-			if (firstname == "") firstname = o.getName();
+    @Override
+    public void calculate(OutputHandler handler, CallableExecutor objectModificationExecutor) throws AlgoException, InterruptedException {
+        JoinerParameters jp = new JoinerParameters(getParameters());
+        String delimiter = jp.delimiter.get();
 
-			MovableSequenceIterator msi = sl.getSequenceIterator();
-			while(msi.hasNext()) {
-				Sequence s = msi.next();
-				if (builder.getSequenceLength() != 0)
-				    builder.addSequenceData(delimiter);
-				builder.addSequenceData(s.getString());
-			}
-		}
+        SequenceBuilder builder = FactoryManager.getInstance().getSequenceFactory()
+                .createBuilder();
+        String firstname = "";
+        builder.setAlphabet(AlphabetTools.getAlphabet(AlphabetTools.DNATYPE));
 
-		if (jp.appendDelimToEnd.get())
-		    builder.addSequenceData(delimiter);
-		
-		builder.setName(firstname + " delimited join");
-		builder.setDescription("Join of " + firstname + " with delimiter '" + delimiter + "'.");
+        for (ClcObject o : getInputObjectsIteratorProvider()) {
+            SequenceList sl = (SequenceList) o;
+            if (firstname == "") firstname = o.getName();
 
-		Sequence output = builder.finish();
-		output.startNoUndoBlock();
-		output.addHistory(new HistoryEntry("Created Hello World sequence", getApplicationContext()));
-		output.endNoUndoBlock();
-		handler.postOutputObjects(Collections.singletonList(output),  this);
-	}
-	
-	@Override
-	protected AlgoParametersInterpreter getInterpreter(AlgoParameters aps) {
-		return new JoinerParameters(aps);
-	}
-	
-	@Override
-	public String getClassKey() {
-		return "com.biol498.sequencejoiner.JoinerAlgo";
-	}
+            MovableSequenceIterator msi = sl.getSequenceIterator();
+            while(msi.hasNext()) {
+                Sequence s = msi.next();
+                if (builder.getSequenceLength() != 0)
+                    builder.addSequenceData(delimiter);
+                builder.addSequenceData(s.getString());
+            }
+        }
 
-	@Override
-	public String getName() {
-		return "Delimited Sequence Join";
-	}
+        if (jp.appendDelimToEnd.get())
+            builder.addSequenceData(delimiter);
 
-	@Override
-	public double getVersion() {
-		return 0.1;
-	}
+        builder.setName(firstname + " delimited join");
+        builder.setDescription("Join of " + firstname + " with delimiter '" + delimiter + "'.");
+
+        Sequence output = builder.finish();
+        output.startNoUndoBlock();
+        output.addHistory(new HistoryEntry("Created Hello World sequence", getApplicationContext()));
+        output.endNoUndoBlock();
+        handler.postOutputObjects(Collections.singletonList(output),  this);
+    }
+
+    @Override
+    protected AlgoParametersInterpreter getInterpreter(AlgoParameters aps) {
+        return new JoinerParameters(aps);
+    }
+
+    @Override
+    public String getClassKey() {
+        return "com.biol498.sequencejoiner.JoinerAlgo";
+    }
+
+    @Override
+    public String getName() {
+        return "Delimited Sequence Join";
+    }
+
+    @Override
+    public double getVersion() {
+        return 0.1;
+    }
 }

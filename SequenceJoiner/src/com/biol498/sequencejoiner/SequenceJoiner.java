@@ -34,93 +34,93 @@ import com.clcbio.api.free.gui.components.MultiSelectRestrictor;
 import com.clcbio.api.free.wizard.dynamic.ClcWizardStepModel;
 
 public class SequenceJoiner extends AlgoAction {
-	private final static long serialVersionUID = 3584735260060536558L;
-	public final static String PLUGIN_GROUP = "free";
+    private final static long serialVersionUID = 3584735260060536558L;
+    public final static String PLUGIN_GROUP = "free";
 
-	@Override
-	public boolean appliesTo(Class<?>[] typeList) {
-		return true;
-	}
-	
-	@Override
-	public String getName() {
-		return "Delimited Sequence Join";
-	}
-	
-	@Override
-	public int getPreferredMenuLocation() {
-		return 10;
-	}
-	
-	@Override
-	public boolean isInToolBar() {
-		return true;
-	}
-	
-	@Override
-	public boolean isInActionTree() {
-		return true;
-	}
-	
-	@Override
-	public boolean isInMenu() {
-		return true;
-	}
-	
-	@Override
-	public double getVersion() {
-		return 0.1;
-	}
-	
-	@Override
-	public String getClassKey() {
-		return "com.biol498.sequencejoiner.SequenceJoiner";
-	}
-	
-	@Override
-	protected void addToActionGroup() {
-		StaticActionGroupDefinitions.TOOLBOX_TOP_GROUP.addAction(this);
-	}
-	
-	@Override
-	public Algo createAlgo() {
-		return new JoinerAlgo(getManager());
-	}
+    @Override
+    public boolean appliesTo(Class<?>[] typeList) {
+        return true;
+    }
 
-	@Override
-	public MultiSelectRestrictor createRestrictor(final WarningReceptor wr) {
-		return new MultiSelectClassRestrictor(new Class<?>[] { SequenceList.class }, "Select a sequence list"){
-			@Override
-			public boolean canAddObject(ClcObject[] currentSelection, ClcObject candidate) {
-			    if (!super.canAddObject(currentSelection, candidate))
-			        return false;
+    @Override
+    public String getName() {
+        return "Delimited Sequence Join";
+    }
 
-			    if (!SequenceTools.isNucleotide(candidate)) {
-			        wr.showAddingWarning("Can only join nucleotide sequences");
-			        return false;
-			    }
+    @Override
+    public int getPreferredMenuLocation() {
+        return 10;
+    }
 
-				return true;
-			}
-			
-			@Override
-			public boolean verifySelection(ClcObject[] objs) {
-				return 1 <= SequenceTools.getSequenceCount(SequenceType.ALL, (Object[]) objs);
-			}
-		};
-	}
-	
-	@Override
-	public ClcWizardStepModel getFirstStep(AlgoParameters aps, ClcWizardStepModel nextStep) {
-		WizardFacade facade = WizardFacade.getInstance();
-		JoinerParameters jp = new JoinerParameters(aps);
-		return facade.createDefaultParameterSteps(jp.createKeyChecker(getManager()), jp.getKeyObjects(), nextStep);
-	}
-	
-	@Override
-	public AlgoSaveWizardStepModel getAlgoSaveWizardStepModel(AlgoParameters aps) {
-		WizardFacade facade = WizardFacade.getInstance();
-		JoinerParameters jp = new JoinerParameters(aps);		
-		return facade.createDefaultSaveStepModel(jp.createKeyChecker(getManager()), jp.getKeyObjects());
-	}
+    @Override
+    public boolean isInToolBar() {
+        return true;
+    }
+
+    @Override
+    public boolean isInActionTree() {
+        return true;
+    }
+
+    @Override
+    public boolean isInMenu() {
+        return true;
+    }
+
+    @Override
+    public double getVersion() {
+        return 0.1;
+    }
+
+    @Override
+    public String getClassKey() {
+        return "com.biol498.sequencejoiner.SequenceJoiner";
+    }
+
+    @Override
+    protected void addToActionGroup() {
+        StaticActionGroupDefinitions.TOOLBOX_TOP_GROUP.addAction(this);
+    }
+
+    @Override
+    public Algo createAlgo() {
+        return new JoinerAlgo(getManager());
+    }
+
+    @Override
+    public MultiSelectRestrictor createRestrictor(final WarningReceptor wr) {
+        return new MultiSelectClassRestrictor(new Class<?>[] { SequenceList.class }, "Select a sequence list"){
+            @Override
+            public boolean canAddObject(ClcObject[] currentSelection, ClcObject candidate) {
+                if (!super.canAddObject(currentSelection, candidate))
+                    return false;
+
+                if (!SequenceTools.isNucleotide(candidate)) {
+                    wr.showAddingWarning("Can only join nucleotide sequences");
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean verifySelection(ClcObject[] objs) {
+                return 1 <= SequenceTools.getSequenceCount(SequenceType.ALL, (Object[]) objs);
+            }
+        };
+    }
+
+    @Override
+    public ClcWizardStepModel getFirstStep(AlgoParameters aps, ClcWizardStepModel nextStep) {
+        WizardFacade facade = WizardFacade.getInstance();
+        JoinerParameters jp = new JoinerParameters(aps);
+        return facade.createDefaultParameterSteps(jp.createKeyChecker(getManager()), jp.getKeyObjects(), nextStep);
+    }
+
+    @Override
+    public AlgoSaveWizardStepModel getAlgoSaveWizardStepModel(AlgoParameters aps) {
+        WizardFacade facade = WizardFacade.getInstance();
+        JoinerParameters jp = new JoinerParameters(aps);
+        return facade.createDefaultSaveStepModel(jp.createKeyChecker(getManager()), jp.getKeyObjects());
+    }
 }

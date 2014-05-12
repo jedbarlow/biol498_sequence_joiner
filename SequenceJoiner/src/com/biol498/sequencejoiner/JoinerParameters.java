@@ -38,65 +38,65 @@ import com.clcbio.api.base.process.Activity;
 import com.clcbio.api.base.session.ApplicationContext;
 
 public class JoinerParameters extends AlgoParametersInterpreter {
-	public final ParameterGroup topGroup = ParameterGroup.topLevel("delimiter", "Set join parameters");
-	public final ParameterGroup mainGroup = ParameterGroup.childOf(topGroup, "Delimiter settings");
-	public final StringKey delimiter = Keys.newStringKey(this, "delimiter")
-			.inGroup(mainGroup)
-			.describedAs("Sequence Delimiter")
-			.labelled("Delimiter")
-			.defaultsTo("NNNNNNNNNN")
-			.done();
-	public final BooleanKey appendDelimToEnd = Keys.newBooleanKey(this, "appendToEnd")
-	        .inGroup(mainGroup)
-	        .describedAs("Append a delimiter after the last sequence")
-	        .labelled("Delimiter after last sequence")
-	        .defaultsTo(false)
-	        .done();
-	private final KeyContainer keys;
+    public final ParameterGroup topGroup = ParameterGroup.topLevel("delimiter", "Set join parameters");
+    public final ParameterGroup mainGroup = ParameterGroup.childOf(topGroup, "Delimiter settings");
+    public final StringKey delimiter = Keys.newStringKey(this, "delimiter")
+            .inGroup(mainGroup)
+            .describedAs("Sequence Delimiter")
+            .labelled("Delimiter")
+            .defaultsTo("NNNNNNNNNN")
+            .done();
+    public final BooleanKey appendDelimToEnd = Keys.newBooleanKey(this, "appendToEnd")
+            .inGroup(mainGroup)
+            .describedAs("Append a delimiter after the last sequence")
+            .labelled("Delimiter after last sequence")
+            .defaultsTo(false)
+            .done();
+    private final KeyContainer keys;
 
-	public JoinerParameters(AlgoParameters aps) {
-		super(aps);
-		this.keys = new KeyContainer(delimiter, appendDelimToEnd);
-	}
+    public JoinerParameters(AlgoParameters aps) {
+        super(aps);
+        this.keys = new KeyContainer(delimiter, appendDelimToEnd);
+    }
 
-	@Override
-	public String getClassKey() {
-		return "com.biol498.sequencejoiner.JoinerParameters";
-	}
+    @Override
+    public String getClassKey() {
+        return "com.biol498.sequencejoiner.JoinerParameters";
+    }
 
-	@Override
-	public Set<String> getKeys() {
-		return keys.getKeySet();
-	}
+    @Override
+    public Set<String> getKeys() {
+        return keys.getKeySet();
+    }
 
-	@Override
-	public void setToDefault() {
-		keys.setToDefault();
-	}
-	
-	@Override
-	public Collection<Key<?>> getKeyObjects() {
-		return keys.getKeys();
-	}
-	
-	@Override
-	public KeyChecker createKeyChecker(final ApplicationContext applicationContext) {
-		return new CachingKeyChecker(getAlgoParameters()) {
+    @Override
+    public void setToDefault() {
+        keys.setToDefault();
+    }
 
-			@Override
-			public boolean isEnabled(Key<?> arg0, AlgoInputSelection arg1,
-					Activity arg2) throws InterruptedException {
-				return true;
-			}
+    @Override
+    public Collection<Key<?>> getKeyObjects() {
+        return keys.getKeys();
+    }
 
-			@Override
-			public void validate(Collection<? extends Key<?>> keys,
-					AlgoInputSelection input, ParameterValidationHandler handler,
-					Activity activity) throws InterruptedException {
-				for (Key<?> key : keys) {
-					key.validateCurrent(handler, applicationContext);
-				}
-			}
-		};
-	}
+    @Override
+    public KeyChecker createKeyChecker(final ApplicationContext applicationContext) {
+        return new CachingKeyChecker(getAlgoParameters()) {
+
+            @Override
+            public boolean isEnabled(Key<?> arg0, AlgoInputSelection arg1,
+                    Activity arg2) throws InterruptedException {
+                return true;
+            }
+
+            @Override
+            public void validate(Collection<? extends Key<?>> keys,
+                    AlgoInputSelection input, ParameterValidationHandler handler,
+                    Activity activity) throws InterruptedException {
+                for (Key<?> key : keys) {
+                    key.validateCurrent(handler, applicationContext);
+                }
+            }
+        };
+    }
 }
